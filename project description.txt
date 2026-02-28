@@ -1,0 +1,229 @@
+You are a senior full-stack software engineer.
+
+Build a complete, fully working, production-ready project based EXACTLY on the following academic project specification.
+
+Project Title: WEBSITE ON DONATION
+
+Tech Stack (STRICTLY FOLLOW):
+Frontend: HTML5, CSS3, JavaScript
+Backend: PHP (Core PHP, no frameworks)
+Database: MySQL
+Server: XAMPP / Apache compatible
+
+The project must be fully functional, secure, and runnable locally on XAMPP without errors.
+
+---------------------------------------
+PROJECT OVERVIEW
+---------------------------------------
+This is a Donation Website platform that allows:
+- User Registration and Login
+- Donation of money and items
+- Viewing donated items
+- Submitting suggestions
+- Viewing FAQ
+- Viewing Success Stories
+- About Us page
+- Secure data storage in MySQL
+
+The platform must follow clean UI design similar to a modern donation platform.
+
+---------------------------------------
+PAGES REQUIRED
+---------------------------------------
+
+1) index.php (Home Page)
+- Navigation bar:
+  Home | Login | Donate | Items Donated | About Us | Suggest | FAQ | Success Story
+- Hero section:
+  Title: "Welcome to Care Cloud"
+  Subtitle: "Empowering a Brighter Tomorrow, One Donation at a Time."
+  Donate Now button
+- Clean gradient background
+- Mobile responsive
+
+2) signup.php
+Fields:
+- First Name
+- Last Name
+- Email
+- Password (hashed using password_hash)
+- Mobile
+- Gender (Male, Female, Other)
+- Address
+- Submit button
+
+Validation:
+- Required fields validation
+- Email format validation
+- Password confirmation
+- Error messages displayed properly
+
+On success:
+- Store user in database
+- Redirect to login page
+
+3) login.php
+Fields:
+- Email
+- Password
+- Login button
+
+Features:
+- Validate credentials
+- Use password_verify
+- Start session
+- Redirect to homepage
+- Show error if invalid
+
+4) donate.php
+User must be logged in.
+
+Fields:
+- Name (auto-filled if logged in)
+- Email (auto-filled)
+- Mobile
+- Amount (for money donation)
+- Item Type (Books, Clothes, Food, Stationery)
+- Item Description
+- Quantity
+- Delivery Option (Drop-off / Request Pick-up)
+- Address (required if Request Pick-up)
+
+Features:
+- Validate inputs
+- Store in database
+- Show confirmation message
+- Redirect to thankyou page
+
+5) items_donated.php
+- Display all donated items in table format
+- Show:
+  Name
+  Email
+  Amount
+  Item Type
+  Description
+  Quantity
+  Date
+
+6) suggest.php
+Fields:
+- Name
+- Email
+- Suggestion
+Store in database.
+Show success message.
+
+7) about.php
+Include:
+- Mission statement
+- Organization story
+- Encouraging donation message
+
+8) faq.php
+Include:
+- How can I donate?
+- What items can I donate?
+- Is donation secure?
+- Can I donate money instead of items?
+
+9) success_story.php
+Include:
+- At least 2 success stories
+- Images section
+- Impact description
+
+10) logout.php
+- Destroy session
+- Redirect to homepage
+
+---------------------------------------
+DATABASE STRUCTURE (CREATE SQL FILE)
+---------------------------------------
+
+Create database: donation_db
+
+Table 1: users
+- id (INT, PK, AUTO_INCREMENT)
+- first_name VARCHAR(100)
+- last_name VARCHAR(100)
+- email VARCHAR(255, UNIQUE)
+- password VARCHAR(255)
+- mobile VARCHAR(15)
+- gender ENUM('male','female','other')
+- address TEXT
+- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+Table 2: donations
+- id INT AUTO_INCREMENT PRIMARY KEY
+- user_id INT (Foreign Key)
+- name VARCHAR(150)
+- email VARCHAR(255)
+- mobile VARCHAR(15)
+- amount DECIMAL(10,2)
+- item_type VARCHAR(100)
+- description TEXT
+- quantity INT
+- delivery_option VARCHAR(50)
+- address TEXT
+- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+Table 3: suggestions
+- id INT AUTO_INCREMENT PRIMARY KEY
+- name VARCHAR(255)
+- email VARCHAR(255)
+- suggestion TEXT
+- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+---------------------------------------
+SECURITY REQUIREMENTS
+---------------------------------------
+- Use prepared statements (mysqli or PDO)
+- Hash passwords
+- Use session management
+- Prevent SQL injection
+- Basic form sanitization
+- Display proper error messages
+
+---------------------------------------
+DESIGN REQUIREMENTS
+---------------------------------------
+- Clean navbar
+- Consistent styling across pages
+- Responsive layout
+- Green donation buttons
+- Soft gradient homepage
+- Centered forms
+- Modern card layout
+
+---------------------------------------
+PROJECT STRUCTURE
+---------------------------------------
+/donation_project
+    index.php
+    signup.php
+    login.php
+    logout.php
+    donate.php
+    items_donated.php
+    suggest.php
+    about.php
+    faq.php
+    success_story.php
+    thankyou.php
+    /css/style.css
+    /includes/db.php
+    /sql/donation_db.sql
+
+---------------------------------------
+FINAL REQUIREMENTS
+---------------------------------------
+1. Provide complete working code for every file.
+2. Provide full SQL file.
+3. Ensure no missing parts.
+4. Ensure no placeholder comments like "implement later".
+5. Ensure the project runs immediately after importing database.
+6. Provide instructions to run on XAMPP.
+
+This must be a 100% complete and error-free working academic project.
+Generate full code now.

@@ -1,0 +1,157 @@
+<% title = 'Process Payment - CareCloud – Digital Charity Management System' %>
+
+<!-- Payment Form -->
+<div class="container">
+    <div class="form-container">
+        <h2 class="page-title">Process Your Payment</h2>
+        
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3>Donation Details</h3>
+            <p><strong>Item Type:</strong> <%= donation.itemType %></p>
+            <p><strong>Description:</strong> <%= donation.description %></p>
+            <p><strong>Quantity:</strong> <%= donation.quantity %></p>
+        </div>
+        
+        <form method="POST" action="/payment/process/<%= donation._id %>">
+            <div class="form-group">
+                <label for="amount"><i class="fas fa-dollar-sign" style="color: #2ecc71; margin-right: 0.5rem;"></i> Amount to Donate *</label>
+                <input type="number" id="amount" name="amount" min="0.01" step="0.01" value="<%= donation.amount || '' %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="currency"><i class="fas fa-coins" style="color: #f39c12; margin-right: 0.5rem;"></i> Currency *</label>
+                <select id="currency" name="currency" required>
+                    <% currencies.forEach(currency => { %>
+                        <option value="<%= currency %>" <%= (donation.currency === currency || currency === 'USD') ? 'selected' : '' %>><%= currency %></option>
+                    <% }) %>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="paymentMethod"><i class="fas fa-credit-card" style="color: #3498db; margin-right: 0.5rem;"></i> Payment Method *</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="stripe">Stripe</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="razorpay">Razorpay</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                    <option value="upi">UPI (India)</option>
+                </select>
+            </div>
+            
+            <div class="payment-method-details" id="stripe-details" style="display: none;">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-row" style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-method-details" id="paypal-details" style="display: none;">
+                <div class="form-group">
+                    <label for="paypalEmail">PayPal Email</label>
+                    <input type="email" id="paypalEmail" name="paypalEmail" placeholder="your-paypal-email@example.com">
+                </div>
+            </div>
+            
+            <div class="payment-method-details" id="razorpay-details" style="display: none;">
+                <p>Please complete payment through Razorpay secure gateway after submission.</p>
+            </div>
+            
+            <div class="payment-method-details" id="bank-transfer-details" style="display: none;">
+                <p>Bank transfer details will be provided after submission.</p>
+            </div>
+            
+            <div class="payment-method-details" id="upi-details" style="display: none;">
+                <div class="form-group">
+                    <label for="upiId">UPI ID</label>
+                    <input type="text" id="upiId" name="upiId" placeholder="your-vpa@upi">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="donorName"><i class="fas fa-user" style="color: #667eea; margin-right: 0.5rem;"></i> Donor Name *</label>
+                <input type="text" id="donorName" name="donorName" value="<%= user.firstName + ' ' + (user.lastName || '') %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="donorEmail"><i class="fas fa-envelope" style="color: #27ae60; margin-right: 0.5rem;"></i> Email *</label>
+                <input type="email" id="donorEmail" name="donorEmail" value="<%= user.email %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message (Optional)</label>
+                <textarea id="message" name="message" rows="3" placeholder="Add a message for the recipients..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn"><i class="fas fa-lock"></i> Securely Process Payment</button>
+        </form>
+    </div>
+    
+    <!-- Security Notice -->
+    <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; border: none;">
+        <h3><i class="fas fa-shield-alt"></i> Secure Payment Guarantee</h3>
+        <p>Your payment information is encrypted and securely processed. We do not store your payment details on our servers.</p>
+        <ul style="color: rgba(255,255,255,0.9);">
+            <li><i class="fas fa-check-circle"></i> 256-bit SSL encryption</li>
+            <li><i class="fas fa-check-circle"></i> PCI DSS compliant processing</li>
+            <li><i class="fas fa-check-circle"></i> Trusted payment gateways</li>
+            <li><i class="fas fa-check-circle"></i> Zero data retention policy</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethodSelect = document.getElementById('paymentMethod');
+        const paymentMethodDetails = document.querySelectorAll('.payment-method-details');
+        
+        // Show/hide payment method specific fields
+        paymentMethodSelect.addEventListener('change', function() {
+            // Hide all payment method details
+            paymentMethodDetails.forEach(detail => {
+                detail.style.display = 'none';
+            });
+            
+            // Show selected payment method details
+            const selectedMethod = this.value;
+            const selectedDetail = document.getElementById(selectedMethod + '-details');
+            if (selectedDetail) {
+                selectedDetail.style.display = 'block';
+            }
+        });
+        
+        // Trigger change event to show initial payment method details
+        paymentMethodSelect.dispatchEvent(new Event('change'));
+        
+        // Add input formatting for card number
+        const cardNumberInput = document.getElementById('cardNumber');
+        if (cardNumberInput) {
+            cardNumberInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+        }
+        
+        // Add input formatting for expiry date
+        const expiryDateInput = document.getElementById('expiryDate');
+        if (expiryDateInput) {
+            expiryDateInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+        }
+    });
+</script>

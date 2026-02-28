@@ -1,0 +1,108 @@
+<% title = 'Items Donated - CareCloud – Digital Charity Management System' %>
+
+<!-- Items Donated Content -->
+<div class="container">
+    <h2 class="page-title">Items Donated</h2>
+    
+    <% if (donations && donations.length > 0) { %>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user"></i> Name</th>
+                        <th><i class="fas fa-envelope"></i> Email</th>
+                        <th><i class="fas fa-dollar-sign"></i> Amount</th>
+                        <th><i class="fas fa-box"></i> Item Type</th>
+                        <th><i class="fas fa-edit"></i> Description</th>
+                        <th><i class="fas fa-hashtag"></i> Quantity</th>
+                        <th><i class="fas fa-calendar"></i> Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% donations.forEach(donation => { %>
+                        <tr>
+                            <td><%= donation.name %></td>
+                            <td><%= donation.email %></td>
+                            <td><%= donation.amount ? '$' + donation.amount.toFixed(2) : 'N/A' %></td>
+                            <td>
+                                <% if(donation.itemType === 'Books') { %>
+                                    📚 <%= donation.itemType %>
+                                <% } else if(donation.itemType === 'Clothes') { %>
+                                    👕 <%= donation.itemType %>
+                                <% } else if(donation.itemType === 'Food') { %>
+                                    🍎 <%= donation.itemType %>
+                                <% } else if(donation.itemType === 'Stationery') { %>
+                                    ✏️ <%= donation.itemType %>
+                                <% } else if(donation.itemType === 'Electronics') { %>
+                                    💻 <%= donation.itemType %>
+                                <% } else if(donation.itemType === 'Furniture') { %>
+                                    🪑 <%= donation.itemType %>
+                                <% } else { %>
+                                    <%= donation.itemType %>
+                                <% } %>
+                            </td>
+                            <td><%= donation.description.substring(0, 50) + (donation.description.length > 50 ? '...' : '') %></td>
+                            <td><%= donation.quantity %></td>
+                            <td><%= new Date(donation.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="card">
+            <div style="text-align: center; padding: 2rem;">
+                <div style="font-size: 4rem; color: #e74c3c; margin-bottom: 1rem;">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <h3>No donations yet</h3>
+                <p>No donations have been made yet. Be the first to make a difference!</p>
+                <% if(user) { %>
+                    <a href="/donate" class="btn"><i class="fas fa-hand-holding-heart"></i> Make a Donation</a>
+                <% } else { %>
+                    <a href="/signup" class="btn"><i class="fas fa-user-plus"></i> Sign Up to Donate</a>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+    
+    <!-- Stats Section -->
+    <div class="card" style="margin-top: 2rem;">
+        <h3><i class="fas fa-chart-bar" style="color: #3498db; margin-right: 0.5rem;"></i> Donation Statistics</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                <div style="font-size: 2rem; color: #27ae60; margin-bottom: 0.5rem;"><i class="fas fa-gift"></i></div>
+                <div style="font-size: 1.5rem; font-weight: bold;"><%= donations ? donations.length : 0 %></div>
+                <div>Total Donations</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                <div style="font-size: 2rem; color: #e74c3c; margin-bottom: 0.5rem;"><i class="fas fa-dollar-sign"></i></div>
+                <div style="font-size: 1.5rem; font-weight: bold;">
+                    <% 
+                        let totalAmount = 0;
+                        if(donations) {
+                            donations.forEach(donation => {
+                                if(donation.amount) totalAmount += donation.amount;
+                            });
+                        }
+                        %><%= totalAmount.toFixed(2) %>
+                </div>
+                <div>Total Amount</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                <div style="font-size: 2rem; color: #f39c12; margin-bottom: 0.5rem;"><i class="fas fa-boxes"></i></div>
+                <div style="font-size: 1.5rem; font-weight: bold;">
+                    <% 
+                        let totalQuantity = 0;
+                        if(donations) {
+                            donations.forEach(donation => {
+                                totalQuantity += donation.quantity;
+                            });
+                        }
+                        %><%= totalQuantity %>
+                </div>
+                <div>Total Items</div>
+            </div>
+        </div>
+    </div>
+</div>

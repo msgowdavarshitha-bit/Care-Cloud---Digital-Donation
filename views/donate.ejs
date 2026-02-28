@@ -1,0 +1,168 @@
+<% title = 'Donate - CareCloud – Digital Charity Management System' %>
+
+<!-- Donation Form -->
+<div class="container">
+    <div class="form-container">
+        <h2 class="page-title">Make a Difference Today</h2>
+        
+        <p class="subtitle">Your generosity can change lives. Choose how you'd like to contribute to our cause.</p>
+        
+        <!-- Success/Error Messages -->
+        <% if(success) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> <%= success %>
+            </div>
+        <% } %>
+        
+        <% if(error) { %>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+        <% } %>
+        
+        <form method="POST" action="/donate">
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user" style="color: #667eea; margin-right: 0.5rem;"></i> Name *</label>
+                <input type="text" id="name" name="name" value="<%= user ? user.firstName + ' ' + (user.lastName || '') : '' %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope" style="color: #27ae60; margin-right: 0.5rem;"></i> Email *</label>
+                <input type="email" id="email" name="email" value="<%= user ? user.email : '' %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile"><i class="fas fa-phone" style="color: #9b59b6; margin-right: 0.5rem;"></i> Mobile Number</label>
+                <input type="tel" id="mobile" name="mobile" value="<%= user ? user.mobile : '' %>">
+            </div>
+            
+            <div class="form-group">
+                <label for="itemType"><i class="fas fa-gift" style="color: #e74c3c; margin-right: 0.5rem;"></i> Donation Type *</label>
+                <select id="itemType" name="itemType" required onchange="toggleAmountField()">
+                    <option value="">Select Donation Type</option>
+                    <option value="Money" <%= (typeof formData !== 'undefined' && formData.itemType === 'Money') ? 'selected' : '' %>>Money Donation</option>
+                    <option value="Books" <%= (typeof formData !== 'undefined' && formData.itemType === 'Books') ? 'selected' : '' %>>Books</option>
+                    <option value="Clothes" <%= (typeof formData !== 'undefined' && formData.itemType === 'Clothes') ? 'selected' : '' %>>Clothes</option>
+                    <option value="Food" <%= (typeof formData !== 'undefined' && formData.itemType === 'Food') ? 'selected' : '' %>>Food Items</option>
+                    <option value="Stationery" <%= (typeof formData !== 'undefined' && formData.itemType === 'Stationery') ? 'selected' : '' %>>Stationery</option>
+                    <option value="Electronics" <%= (typeof formData !== 'undefined' && formData.itemType === 'Electronics') ? 'selected' : '' %>>Electronics</option>
+                    <option value="Furniture" <%= (typeof formData !== 'undefined' && formData.itemType === 'Furniture') ? 'selected' : '' %>>Furniture</option>
+                </select>
+            </div>
+            
+            <!-- Money Donation Specific Fields -->
+            <div id="moneyDonationFields" style="display: none;">
+                <div class="form-group">
+                    <label for="amount"><i class="fas fa-dollar-sign" style="color: #2ecc71; margin-right: 0.5rem;"></i> Amount to Donate</label>
+                    <input type="number" id="amount" name="amount" min="0.01" step="0.01" value="<%= (typeof formData !== 'undefined' && formData.amount) ? formData.amount : '' %>" placeholder="Enter amount">
+                </div>
+                
+                <div class="form-group">
+                    <label for="currency"><i class="fas fa-coins" style="color: #f39c12; margin-right: 0.5rem;"></i> Currency</label>
+                    <select id="currency" name="currency">
+                        <% if(typeof currencies !== 'undefined') { %>
+                            <% currencies.forEach(currency => { %>
+                                <option value="<%= currency %>" <%= (typeof formData !== 'undefined' && formData.currency === currency) ? 'selected' : '' %>><%= currency %></option>
+                            <% }) %>
+                        <% } else { %>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="GBP">GBP - British Pound</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                        <% } %>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod"><i class="fas fa-credit-card" style="color: #3498db; margin-right: 0.5rem;"></i> Payment Method</label>
+                    <select id="paymentMethod" name="paymentMethod">
+                        <option value="offline">Offline Payment</option>
+                        <option value="stripe">Credit/Debit Card (Stripe)</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="razorpay">Razorpay</option>
+                        <option value="bank-transfer">Bank Transfer</option>
+                        <option value="upi">UPI (India)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="description"><i class="fas fa-edit" style="color: #f39c12; margin-right: 0.5rem;"></i> Description *</label>
+                <textarea id="description" name="description" rows="4" placeholder="Describe what you're donating or the purpose of your donation..." required><%= (typeof formData !== 'undefined' && formData.description) ? formData.description : '' %></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="quantity"><i class="fas fa-box-open" style="color: #e67e22; margin-right: 0.5rem;"></i> Quantity *</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="<%= (typeof formData !== 'undefined' && formData.quantity) ? formData.quantity : '1' %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="deliveryOption"><i class="fas fa-truck" style="color: #3498db; margin-right: 0.5rem;"></i> Delivery Option *</label>
+                <select id="deliveryOption" name="deliveryOption" required>
+                    <option value="Drop-off" <%= (typeof formData !== 'undefined' && formData.deliveryOption === 'Drop-off') ? 'selected' : '' %>>Drop-off at our center</option>
+                    <option value="Request Pick-up" <%= (typeof formData !== 'undefined' && formData.deliveryOption === 'Request Pick-up') ? 'selected' : '' %>>Request pick-up from my location</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="addressGroup" style="display: none;">
+                <label for="address"><i class="fas fa-map-marker-alt" style="color: #e74c3c; margin-right: 0.5rem;"></i> Pickup Address</label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter the address for pick-up..."><%= (typeof formData !== 'undefined' && formData.address) ? formData.address : '' %></textarea>
+            </div>
+            
+            <button type="submit" class="btn"><i class="fas fa-donate"></i> Submit Donation</button>
+        </form>
+        
+        <!-- Donation Tips Section -->
+        <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <h3><i class="fas fa-lightbulb"></i> Donation Tips</h3>
+            <ul style="color: rgba(255,255,255,0.9);">
+                <li>Ensure items are clean and in good condition</li>
+                <li>Include original packaging when possible</li>
+                <li>For monetary donations, consider recurring gifts for sustained impact</li>
+                <li>Check our wish list for specific items needed</li>
+                <li>Follow local guidelines for donation tax deductions</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle money donation fields when "Money" is selected
+    function toggleAmountField() {
+        const itemType = document.getElementById('itemType').value;
+        const moneyFields = document.getElementById('moneyDonationFields');
+        const amountField = document.getElementById('amount');
+        const currencyField = document.getElementById('currency');
+        const paymentMethodField = document.getElementById('paymentMethod');
+        
+        if(itemType === 'Money') {
+            moneyFields.style.display = 'block';
+            amountField.required = true;
+        } else {
+            moneyFields.style.display = 'none';
+            amountField.required = false;
+        }
+    }
+    
+    // Show/hide address field based on delivery option
+    document.getElementById('deliveryOption').addEventListener('change', function() {
+        const addressGroup = document.getElementById('addressGroup');
+        if(this.value === 'Request Pick-up') {
+            addressGroup.style.display = 'block';
+        } else {
+            addressGroup.style.display = 'none';
+        }
+    });
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleAmountField();
+        
+        // Set initial state for address field
+        const initialDeliveryOption = document.getElementById('deliveryOption').value;
+        const addressGroup = document.getElementById('addressGroup');
+        if(initialDeliveryOption === 'Request Pick-up') {
+            addressGroup.style.display = 'block';
+        }
+    });
+</script>

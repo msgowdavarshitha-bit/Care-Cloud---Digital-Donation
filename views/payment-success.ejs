@@ -1,0 +1,75 @@
+<% title = 'Payment Successful - CareCloud – Digital Charity Management System' %>
+
+<!-- Payment Success Content -->
+<div class="container">
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <div style="font-size: 4rem; color: #27ae60; margin-bottom: 1rem; animation: bounce 2s infinite;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="page-title" style="font-size: 2.5rem; color: #27ae60;">Payment Successful!</h2>
+        <p style="font-size: 1.3rem; margin-bottom: 2rem; color: #555;">Thank you for your generous donation!</p>
+        
+        <div style="font-size: 3rem; color: #27ae60; margin-bottom: 1rem;">
+            <i class="fas fa-heart"></i>
+        </div>
+        
+        <% if(paymentTransaction) { %>
+        <div class="payment-summary" style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; text-align: left;">
+            <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-receipt"></i> Transaction Details</h3>
+            <p><strong>Transaction ID:</strong> <%= paymentTransaction.transactionId %></p>
+            <p><strong>Amount:</strong> <%= paymentTransaction.currency %> <%= paymentTransaction.amount.toFixed(2) %></p>
+            <p><strong>Payment Method:</strong> <%= paymentTransaction.paymentMethod %></p>
+            <p><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;"><%= paymentTransaction.status %></span></p>
+            <p><strong>Date:</strong> <%= new Date(paymentTransaction.createdAt).toLocaleString() %></p>
+        </div>
+        <% } %>
+        
+        <% if(donation) { %>
+        <div class="donation-details" style="background: #e8f4fd; padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; text-align: left;">
+            <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-gift"></i> Donation Details</h3>
+            <p><strong>Item Type:</strong> <%= donation.itemType %></p>
+            <p><strong>Description:</strong> <%= donation.description %></p>
+            <p><strong>Quantity:</strong> <%= donation.quantity %></p>
+        </div>
+        <% } %>
+        
+        <p>Your donation will help us continue our mission to support communities in need around the world.</p>
+        
+        <p>We appreciate your kindness and compassion. Together, we can create a brighter future for everyone.</p>
+        
+        <div style="margin: 2rem 0;">
+            <a href="/" class="btn" style="margin-right: 1rem;"><i class="fas fa-home"></i> Back to Home</a>
+            <a href="/donate" class="btn"><i class="fas fa-hand-holding-heart"></i> Make Another Donation</a>
+        </div>
+    </div>
+    
+    <!-- Receipt Section -->
+    <div class="card">
+        <h3><i class="fas fa-file-invoice" style="color: #f39c12; margin-right: 0.5rem;"></i> Donation Receipt</h3>
+        <p>This serves as your receipt for the donation made to CareCloud – Digital Charity Management System.</p>
+        <p><strong>Charitable Organization:</strong> CareCloud – Digital Charity Management System</p>
+        <p><strong>Registration Number:</strong> CC-2024-001</p>
+        <p><strong>Address:</strong> 123 Charity Lane, Hope City, HC 12345</p>
+        <p><strong>Tax Exempt Status:</strong> Contributions may be tax-deductible depending on your jurisdiction. Please consult your tax advisor.</p>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="btn btn-secondary" onclick="window.print()" style="background: linear-gradient(135deg, #95a5a6 0%, #bdc3c7 100%);">
+                <i class="fas fa-print"></i> Print Receipt
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-20px);
+        }
+        60% {
+            transform: translateY(-10px);
+        }
+    }
+</style>

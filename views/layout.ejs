@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'CareCloud – Digital Charity Management System' %></title>
+    
+    <!-- External Resources -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+</head>
+<body>
+    <!-- Ripple Effect Container -->
+    <div class="ripple-background">
+        <div class="circle xxlarge shade-1"></div>
+        <div class="circle xlarge shade-2"></div>
+        <div class="circle large shade-3"></div>
+        <div class="circle mediun shade-4"></div>
+        <div class="circle small shade-5"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-heart-circle-plus"></i>
+                <a href="/">CareCloud</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/donate" class="nav-link"><i class="fas fa-hand-holding-heart"></i> Donate</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/items-donated" class="nav-link"><i class="fas fa-boxes"></i> Items Donated</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/success-story" class="nav-link"><i class="fas fa-star"></i> Success Stories</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/faq" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/suggest" class="nav-link"><i class="fas fa-lightbulb"></i> Suggest</a>
+                </li>
+                <% if(typeof user !== 'undefined' && user) { %>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-user-circle"></i> <%= user.firstName %>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a href="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/signup" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
+                    </li>
+                <% } %>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <%- body %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Vijayanagar Park Road, Hassan</p>
+                <p><i class="fas fa-phone"></i> +91 9823783450</p>
+                <p><i class="fas fa-envelope"></i> carecloud505@gmail.com</p>
+            </div>
+            
+            <div class="footer-section social">
+                <h3>Connect With Us</h3>
+                <ul class="social-list">
+                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="/about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="/donate"><i class="fas fa-chevron-right"></i> Donate Now</a></li>
+                    <li><a href="/success-story"><i class="fas fa-chevron-right"></i> Success Stories</a></li>
+                    <li><a href="/faq"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 CareCloud – Digital Charity Management System. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: #e74c3c;"></i> for a Better World</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/script.js"></script>
+</body>
+</html>

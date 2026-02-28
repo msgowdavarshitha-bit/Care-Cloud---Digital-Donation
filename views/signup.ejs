@@ -1,0 +1,82 @@
+<% title = 'Sign Up - CareCloud – Digital Charity Management System' %>
+
+<!-- Sign Up Form -->
+<div class="container">
+    <div class="form-container">
+        <h2 class="page-title">Create Account</h2>
+        
+        <% if (error) { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
+        
+        <% if (success) { %>
+            <div class="success-message"><%= success %></div>
+        <% } %>
+        
+        <form method="POST" action="/signup">
+            <div class="form-group">
+                <label for="first_name"><i class="fas fa-user" style="color: #667eea; margin-right: 0.5rem;"></i> First Name *</label>
+                <input type="text" id="first_name" name="firstName" required placeholder="Enter your first name...">
+            </div>
+            
+            <div class="form-group">
+                <label for="last_name"><i class="fas fa-user" style="color: #3498db; margin-right: 0.5rem;"></i> Last Name</label>
+                <input type="text" id="last_name" name="lastName" placeholder="Enter your last name...">
+            </div>
+            
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope" style="color: #27ae60; margin-right: 0.5rem;"></i> Email *</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email address...">
+            </div>
+            
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock" style="color: #e74c3c; margin-right: 0.5rem;"></i> Password *</label>
+                <input type="password" id="password" name="password" required placeholder="Create a strong password...">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password"><i class="fas fa-lock" style="color: #e67e22; margin-right: 0.5rem;"></i> Confirm Password *</label>
+                <input type="password" id="confirm_password" name="confirmPassword" required placeholder="Confirm your password...">
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile"><i class="fas fa-phone" style="color: #f39c12; margin-right: 0.5rem;"></i> Mobile</label>
+                <input type="tel" id="mobile" name="mobile" placeholder="Enter your phone number...">
+            </div>
+            
+            <div class="form-group">
+                <label for="gender"><i class="fas fa-venus-mars" style="color: #9b59b6; margin-right: 0.5rem;"></i> Gender</label>
+                <select id="gender" name="gender">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="address"><i class="fas fa-map-marker-alt" style="color: #1abc9c; margin-right: 0.5rem;"></i> Address</label>
+                <textarea id="address" name="address" rows="3" placeholder="Enter your address..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn"><i class="fas fa-user-plus"></i> Sign Up</button>
+        </form>
+        
+        <p style="margin-top: 1rem; text-align: center;">
+            Already have an account? <a href="/login" class="btn btn-secondary" style="display: inline-block; margin-left: 0.5rem; background: linear-gradient(135deg, #95a5a6 0%, #bdc3c7 100%);"><i class="fas fa-sign-in-alt"></i> Login here</a>
+        </p>
+    </div>
+    
+    <!-- Benefits Section -->
+    <div class="card" style="margin-top: 2rem;">
+        <h3><i class="fas fa-star" style="color: #f1c40f; margin-right: 0.5rem;"></i> Why Join Our Community?</h3>
+        <p>By signing up, you become part of a global network of compassionate individuals making a difference. Here's what you'll gain:</p>
+        <ul>
+            <li><i class="fas fa-check-circle" style="color: #27ae60; margin-right: 0.5rem;"></i> Track your donations and see their impact</li>
+            <li><i class="fas fa-check-circle" style="color: #27ae60; margin-right: 0.5rem;"></i> Receive updates on how your contributions help</li>
+            <li><i class="fas fa-check-circle" style="color: #27ae60; margin-right: 0.5rem;"></i> Connect with other donors in our community</li>
+            <li><i class="fas fa-check-circle" style="color: #27ae60; margin-right: 0.5rem;"></i> Get exclusive access to charity events and campaigns</li>
+            <li><i class="fas fa-check-circle" style="color: #27ae60; margin-right: 0.5rem;"></i> Tax deduction receipts for your donations</li>
+        </ul>
+    </div>
+</div>
